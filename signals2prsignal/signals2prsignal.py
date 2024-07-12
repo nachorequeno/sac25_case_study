@@ -123,5 +123,5 @@ if __name__ == '__main__':
     input_signals = sys.argv[2:]
     # signals2prsignal_old(output_signal, input_signals)
     # signals2prsignal_opt(output_signal, input_signals)
-    signals2prsignal(output_signal+".csv", input_signals)
-    plot_prsignal(output_signal+".svg", input_signals)
+    signals2prsignal(f"{output_signal}.csv", input_signals)
+    plot_prsignal(f"{output_signal}.svg", input_signals)
