@@ -32,15 +32,16 @@ if __name__=="__main__":
 
     prec = 1
 
-    expression_file = f"./{attack}.txt"
+    expression_file = f"./tre/{attack}.txt"
     # expression = "(low ; high) [3 : 4]"
     expression = read_expression(expression_file)
 
 
-    trace_file = f"./{attack}.csv"
+    trace_file = f"./csv/{attack}.csv"
     # tre_expression: str, trace_file: str, precision: float, dtype: str, query_preds
     tre_engine = TimedrelInterface(tre_expression=expression, trace_file=trace_file, precision=prec, dtype="float",
-                                   query_preds={'low': low, 'high': high},)
+                                   query_preds={'lower': lower, 'low': low, 'medium': medium, 'high': high,
+                                                'higher': higher},)
 
     zones = tre_engine.run()
     print(zones)
