@@ -47,7 +47,9 @@ if __name__=="__main__":
     print(zones)
 
     f: Figure = plt.figure()
-    f.add_subplot(111)
+    ax1 = f.add_subplot(111)
+    ax1.set_xlim(0, 48)
+    ax1.set_ylim(0, 48)
     for zone in zones:
         zone.plot_2D(fig=f)
 
