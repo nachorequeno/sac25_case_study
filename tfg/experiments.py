@@ -42,7 +42,7 @@ def plot_zones(zones: list[Zone]) -> None:
 
     plt.show()
 
-def plot_prsignal(output_signal: str, input_signals: list[str], fig: Figure = None) -> Figure:
+def plot_prsignal(input_signals: list[str], fig: Figure = None) -> Figure:
     if fig is None:
         # fig = plt.figure()
         fig, ax = plt.subplots()
@@ -62,35 +62,22 @@ def plot_prsignal(output_signal: str, input_signals: list[str], fig: Figure = No
         df_aggregated_signals = pd.concat([df_aggregated_signals, df_input_signal])
         i = i + 1
 
-    # print(f"Number of signals: {i}")
-    # print(df_aggregated_signals)
-
     print(f"Pivot: {i}")
     signals_wide = df_aggregated_signals.pivot(index="id", columns="time", values="signal")
     print(signals_wide.head())
 
     sns.lineplot(data=df_aggregated_signals, x="time", y="signal", ax=ax)
     plt.ylim(0, 2.75)
-    # plt.show()
-    plt.savefig(fname=output_signal, format='svg')
     return plt.gcf()
 
 
 def overlay(zone: Zone, fig: Figure = None) -> Figure:
-    def _plot_rectangle(min_corner: tuple[float, float], max_corner: tuple[float, float], ax: Axes) -> None:
-        r = Rectangle(min_corner, max_corner)
-        vertices = r.vertices()
-        xs = [v[0] for v in vertices]
-        ys = [v[1] for v in vertices]
-        ax.fill(xs, ys, color='grey', alpha=0.25)
-
     if fig is None:
         # fig = plt.figure()
         fig, ax = plt.subplots()
     else:
         axes = fig.get_axes()
         ax = axes[0]
-        # ax = axes
 
     b, bp = zone.bmin[0], zone.bmax[0]
     e, ep = zone.emin[0], zone.emax[0]
@@ -114,29 +101,15 @@ def overlay(zone: Zone, fig: Figure = None) -> Figure:
     ax.vlines(x=e, ymin=ymin, ymax=ymax, color='r', linestyle='-')
     ax.vlines(x=ep, ymin=ymin, ymax=ymax, color='r', linestyle='--')
 
+    # Grey zones between begin and end
     ax.fill_betweenx(y=[ymin, ymax], x1=b, x2=e, facecolor='grey', alpha=0.25)
-    # ax.fill((b, b, e, e), (ymin, ymax, ymax, ymin), color='grey', alpha=0.25)
-    # _plot_rectangle((b, ymin), (e, ymax), ax)
     ax.fill_betweenx(y=[ymin, ymax], x1=b, x2=b + dp, facecolor='grey', alpha=0.25)
-    # ax.fill((b, b, b + dp, b + dp), (ymin, ymax, ymax, ymin), color='grey', alpha=0.25)
-    # _plot_rectangle((b, ymin), (b + dp, ymax), ax)
     ax.fill_betweenx(y=[ymin, ymax], x1=bp, x2=ep, facecolor='grey', alpha=0.25)
-    # ax.fill((bp, bp, ep, ep), (ymin, ymax, ymax, ymin), color='grey', alpha=0.25)
-    # _plot_rectangle((bp, ymin), (ep, ymax), ax)
     ax.fill_betweenx(y=[ymin, ymax], x1=bp, x2=bp + d, facecolor='grey', alpha=0.25)
-    # ax.fill((bp, bp, bp + d, bp + d), (ymin, ymax, ymax, ymin), color='grey', alpha=0.25)
-    # _plot_rectangle((bp, ymin), (bp + dp, ymax), ax)
     ax.fill_betweenx(y=[ymin, ymax], x1=ep - dp, x2=ep, facecolor='grey', alpha=0.25)
-    # ax.fill((ep-dp, ep-dp, ep, ep), (ymin, ymax, ymax, ymin), color='grey', alpha=0.25)
-    # _plot_rectangle((ep-dp, ymin), (ep, ymax), ax)
     ax.fill_betweenx(y=[ymin, ymax], x1=e - d, x2=e, facecolor='grey', alpha=0.25)
-    # ax.fill((e-d, e-d, e, e), (ymin, ymax, ymax, ymin), color='grey', alpha=0.25)
-    # _plot_rectangle((e - d, ymin), (e, ymax), ax)
-
-    # plt.show()
 
     return fig
-    # return plt.gcf()
 
 
 if __name__=="__main__":
@@ -157,12 +130,10 @@ if __name__=="__main__":
                                                 'higher': higher},)
 
     zones = tre_engine.run()
+    plot_zones(zones)
     print(zones)
 
-    plot_zones(zones)
-
-    f = plot_prsignal("temp", input_signals)
+    f = plot_prsignal(input_signals)
     for zone in zones:
         f = overlay(zone, f)
-
     plt.show()
