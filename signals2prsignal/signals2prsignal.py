@@ -4,39 +4,10 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-
-def signals2prsignal_old(output_signal: str, input_signals: List[str]) -> None:
-    df_output_signal = pd.DataFrame()
-    # mean
-    for input_signal in input_signals:
-        # Read CSV file
-        df_input_signal = pd.read_csv(input_signal, names=["time", "signal"], index_col=0)
-        df_output_signal = df_output_signal.add(df_input_signal, fill_value=0)
-
-    n = len(input_signals)
-    df_output_signal["mean"] = df_output_signal["signal"] / n
-    df_output_signal["signal"] = 0
-
-    print(f"Number of signals: {n}")
-    df_output_signal.head()
-
-    # stdev
-    for input_signal in input_signals:
-        # Read CSV file
-        df_input_signal = pd.read_csv(input_signal, names=["time", "signal"], index_col=0)
-        df_output_signal = df_output_signal.add(df_input_signal * df_input_signal, fill_value=0)
-
-    # stdev = sqrt(dev) where dev = [sum(x[i]**2 for i in range(n))/n - pow(sum(x for i in range(n))/n, 2)]
-    df_output_signal["stdev"] = (df_output_signal["signal"] / n) - pow(df_output_signal["mean"], 2)
-    df_output_signal["stdev"] = np.sqrt(df_output_signal["stdev"])
-    df_output_signal = df_output_signal.drop(columns=["signal"])
-
-    # Dump to output file
-    print(df_output_signal)
-    df_output_signal.to_csv(output_signal, header=False)
+from matplotlib.figure import Figure
 
 
-def signals2prsignal_opt(output_signal: str, input_signals: List[str]) -> None:
+def signals2prsignal_opt(output_signal: str, input_signals: list[str]) -> None:
     df_output_signal = pd.DataFrame()
     df_mean_signal = pd.DataFrame()
     df_stdev_signal = pd.DataFrame()
@@ -70,7 +41,7 @@ def signals2prsignal_opt(output_signal: str, input_signals: List[str]) -> None:
     df_output_signal.to_csv(output_signal, header=False)
 
 
-def signals2prsignal(output_signal: str, input_signals: List[str]) -> None:
+def signals2prsignal(output_signal: str, input_signals: list[str]) -> None:
     df_aggregated_signals = pd.DataFrame()
 
     i = 0
@@ -92,7 +63,14 @@ def signals2prsignal(output_signal: str, input_signals: List[str]) -> None:
     df_output_signal.to_csv(output_signal, header=False)
 
 
-def plot_prsignal(output_signal: str, input_signals: List[str]) -> None:
+def plot_prsignal(output_signal: str, input_signals: list[str], fig: Figure = None) -> Figure:
+    if fig is None:
+        # fig = plt.figure()
+        fig, ax = plt.subplots()
+    else:
+        axes = fig.get_axes()
+        ax = axes[0]
+
     df_aggregated_signals = pd.DataFrame()
 
     i = 0
@@ -112,10 +90,11 @@ def plot_prsignal(output_signal: str, input_signals: List[str]) -> None:
     signals_wide = df_aggregated_signals.pivot(index="id", columns="time", values="signal")
     print(signals_wide.head())
 
-    sns.lineplot(data=df_aggregated_signals, x="time", y="signal")
+    sns.lineplot(data=df_aggregated_signals, x="time", y="signal", ax=ax)
     plt.ylim(0, 2.75)
     # plt.show()
     plt.savefig(fname=output_signal, format='svg')
+    return plt.gcf()
 
 
 if __name__ == '__main__':
