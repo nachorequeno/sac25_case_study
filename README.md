@@ -42,10 +42,22 @@ python experiments.py fdi50 ./day_0_50_user_1143/fdi50/days_*
 
 As output, the Python script will show the temporal zones that return the execution of the TRE expression agains the electricity consumption record.
 
-![Alt Text](/svg/fdi50.svg)
+![img1](/svg/fdi50_zones.svg)
 
 Additionally, the Python script will overlay the the information of the temporal zones on top of the electricity consumption record.
 Green lines represent the time instants when the TRE starts to become true, and the red lines corresponds to the red lines the time instants when the TRE ends. 
 
-![Alt Text](/svg/fdi50.svg)
-** Continuar con la explicación **
+![img2](/svg/fdi50_signal_and_zones.svg)
+Green lines indicate the time instants when the pattern matching of the TRE may begin (b < t < b'); 
+the red lines are the time instants when the pattern recognition may end (e < t < e'), and blue lines represent the duration (b + d < e, b' + d' < e').
+
+In [Figure 1](#img1), dashed (solid) lines indicate whether the time constraints are strict (b < t) or not (b <= t).
+In [Figure 2](#img2), solid (dashed) lines indicate the loosest (tighest) time instants when the TRE should start (b, b') or end (e, e').
+
+For the sake of simplicity, blue lines are not printed in the [second picture](#img2). 
+The time windows where the TRE is satisfied are colored in grey. 
+The intensity of the grey color indicates overlapping time windows.
+[Figure 1](#img1) can be understood as [Figure 2](#img2) seen from bird's-eye perspective. 
+
+**Remark:**
+RSA scenarios require `lower` and `higher` propositions in TRE. Therefore, you should run `experiments_for_rsa.py` instead of `experiments.py`  

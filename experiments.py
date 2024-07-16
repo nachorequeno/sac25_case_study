@@ -1,10 +1,5 @@
 import sys
 
-import pandas as pd
-import seaborn as sns
-
-import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
 
 from ParetoLib.TRE.TRE import TimedrelInterface
 from signals2prsignal import plot_zones, plot_prsignal_with_zones

@@ -1,9 +1,7 @@
 import sys
 
-import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
-
 from ParetoLib.TRE.TRE import TimedrelInterface
+from signals2prsignal import plot_zones, plot_prsignal_with_zones
 
 def read_expression(filename: str) -> str:
     f = open(filename, "r")
@@ -30,15 +28,15 @@ def higher(x):
 
 if __name__=="__main__":
     attack = sys.argv[1]
+    input_signals = sys.argv[2:]
 
     prec = 1
 
-    expression_file = f"./{attack}.txt"
+    expression_file = f"./tre/{attack}.txt"
     # expression = "(low ; high) [3 : 4]"
     expression = read_expression(expression_file)
 
-
-    trace_file = f"./{attack}.csv"
+    trace_file = f"./csv/{attack}.csv"
     # tre_expression: str, trace_file: str, precision: float, dtype: str, query_preds
     tre_engine = TimedrelInterface(tre_expression=expression, trace_file=trace_file, precision=prec, dtype="float",
                                    query_preds={'lower': lower, 'low': low, 'medium': medium, 'high': high,
@@ -47,9 +45,5 @@ if __name__=="__main__":
     zones = tre_engine.run()
     print(zones)
 
-    f: Figure = plt.figure()
-    f.add_subplot(111)
-    for zone in zones:
-        zone.plot_2D(fig=f)
-
-    plt.show()
+    plot_zones(zones)
+    plot_prsignal_with_zones(None, input_signals, zones)
