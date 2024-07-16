@@ -1,0 +1,3 @@
+pandas>=1.2.4
+seaborn
+#ParetoLib>=2.5.1

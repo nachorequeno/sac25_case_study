@@ -4,33 +4,13 @@ import pandas as pd
 import seaborn as sns
 
 import matplotlib.pyplot as plt
-from ParetoLib.Geometry.Rectangle import Rectangle
 from ParetoLib.Geometry.Zone import Zone
-from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from ParetoLib.TRE.TRE import TimedrelInterface
 
-def read_expression(filename: str) -> str:
-    f = open(filename, "r")
-    expression = f.read()
-    f.close()
-    return expression
-
-def lower(x):
-    None
-
-def low(x):
-    return 0.0 <= x[2] < 0.71
-
-def medium(x):
-    return 0.71 <= x[2] < 1.42
-
-def high(x):
-    return x[2] > 1.42
-
-def higher(x):
-    None
+def create_temporary_trace_file(input_signals: list[str], trace_file: str) -> None:
+    pass
 
 def plot_zones(zones: list[Zone]) -> None:
     f: Figure = plt.figure()
@@ -111,6 +91,27 @@ def overlay(zone: Zone, fig: Figure = None) -> Figure:
 
     return fig
 
+def read_expression(filename: str) -> str:
+    f = open(filename, "r")
+    expression = f.read()
+    f.close()
+    return expression
+
+def lower(x):
+    None
+
+def low(x):
+    return 0.0 <= x[2] < 0.71
+
+def medium(x):
+    return 0.71 <= x[2] < 1.42
+
+def high(x):
+    return x[2] > 1.42
+
+def higher(x):
+    None
+
 
 if __name__=="__main__":
     attack = sys.argv[1]
@@ -122,8 +123,8 @@ if __name__=="__main__":
     # expression = "(low ; high) [3 : 4]"
     expression = read_expression(expression_file)
 
-
     trace_file = f"./csv/{attack}.csv"
+    create_temporary_trace_file(input_signals, trace_file)
     # tre_expression: str, trace_file: str, precision: float, dtype: str, query_preds
     tre_engine = TimedrelInterface(tre_expression=expression, trace_file=trace_file, precision=prec, dtype="float",
                                    query_preds={'lower': lower, 'low': low, 'medium': medium, 'high': high,

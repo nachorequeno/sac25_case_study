@@ -1,8 +1,9 @@
-from typing import List
 import sys
+
 import pandas as pd
 import numpy as np
 import seaborn as sns
+
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 
@@ -33,11 +34,10 @@ def signals2prsignal_opt(output_signal: str, input_signals: list[str]) -> None:
     df_output_signal["mean"] = df_mean_signal["signal"]
     df_output_signal["stdev"] = np.sqrt(df_stdev_signal["signal"]/n)
 
-    print(f"Number of signals: {n}")
-    print(df_output_signal.head())
+    # print(f"Number of signals: {n}")
+    # print(df_output_signal.head())
 
     # Dump to output file
-    print(df_output_signal)
     df_output_signal.to_csv(output_signal, header=False)
 
 
@@ -59,7 +59,6 @@ def signals2prsignal(output_signal: str, input_signals: list[str]) -> None:
     df_output_signal["stdev"] = df_aggregated_signals.std(axis=1, ddof=1)
 
     # Dump to output file
-    print(df_output_signal)
     df_output_signal.to_csv(output_signal, header=False)
 
 
@@ -100,7 +99,6 @@ def plot_prsignal(output_signal: str, input_signals: list[str], fig: Figure = No
 if __name__ == '__main__':
     output_signal = sys.argv[1]
     input_signals = sys.argv[2:]
-    # signals2prsignal_old(output_signal, input_signals)
     # signals2prsignal_opt(output_signal, input_signals)
     signals2prsignal(f"{output_signal}.csv", input_signals)
     plot_prsignal(f"{output_signal}.svg", input_signals)
