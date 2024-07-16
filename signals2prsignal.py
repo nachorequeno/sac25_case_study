@@ -7,6 +7,53 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 
+from ParetoLib.Geometry.Zone import Zone
+
+def overlay(zone: Zone, fig: Figure = None) -> Figure:
+    '''
+    Overlays the Zones on top of the time series (e.g., electricity consumption records).
+    :param zone:
+    :param fig:
+    :return:
+    '''
+    if fig is None:
+        # fig = plt.figure()
+        fig, ax = plt.subplots()
+    else:
+        axes = fig.get_axes()
+        ax = axes[0]
+
+    b, bp = zone.bmin[0], zone.bmax[0]
+    e, ep = zone.emin[0], zone.emax[0]
+    d, dp = zone.dmin[0], zone.dmax[0]
+
+    xmin, xmax = ax.get_xlim()
+    ymin, ymax = ax.get_ylim()
+
+    # p1 = (b, e)
+    # p2 = (b, b + dp)
+    # p3 = (ep - dp, ep)
+    # p4 = (bp, ep)
+    # p5 = (bp, bp + d)
+    # p6 = (e - d, e)
+
+    # Begin
+    ax.vlines(x=b, ymin=ymin, ymax=ymax, color='g', linestyle='-')
+    ax.vlines(x=bp, ymin=ymin, ymax=ymax, color='g', linestyle='--')
+
+    # End
+    ax.vlines(x=e, ymin=ymin, ymax=ymax, color='r', linestyle='-')
+    ax.vlines(x=ep, ymin=ymin, ymax=ymax, color='r', linestyle='--')
+
+    # Grey zones between begin and end
+    ax.fill_betweenx(y=[ymin, ymax], x1=b, x2=e, facecolor='grey', alpha=0.25)
+    ax.fill_betweenx(y=[ymin, ymax], x1=b, x2=b + dp, facecolor='grey', alpha=0.25)
+    ax.fill_betweenx(y=[ymin, ymax], x1=bp, x2=ep, facecolor='grey', alpha=0.25)
+    ax.fill_betweenx(y=[ymin, ymax], x1=bp, x2=bp + d, facecolor='grey', alpha=0.25)
+    ax.fill_betweenx(y=[ymin, ymax], x1=ep - dp, x2=ep, facecolor='grey', alpha=0.25)
+    ax.fill_betweenx(y=[ymin, ymax], x1=e - d, x2=e, facecolor='grey', alpha=0.25)
+
+    return fig
 
 def signals2prsignal_opt(output_signal: str, input_signals: list[str]) -> None:
     df_output_signal = pd.DataFrame()
@@ -63,6 +110,13 @@ def signals2prsignal(output_signal: str, input_signals: list[str]) -> None:
 
 
 def plot_prsignal(output_signal: str, input_signals: list[str], fig: Figure = None) -> Figure:
+    '''
+    Plots a probabilistic signal that summarizes several time series with 95% interval confidence.
+    :param output_signal:
+    :param input_signals:
+    :param fig:
+    :return:
+    '''
     if fig is None:
         # fig = plt.figure()
         fig, ax = plt.subplots()
@@ -91,9 +145,26 @@ def plot_prsignal(output_signal: str, input_signals: list[str], fig: Figure = No
 
     sns.lineplot(data=df_aggregated_signals, x="time", y="signal", ax=ax)
     plt.ylim(0, 2.75)
-    # plt.show()
     plt.savefig(fname=output_signal, format='svg')
     return plt.gcf()
+
+
+def plot_zones(zones: list[Zone]) -> None:
+    f: Figure = plt.figure()
+    ax1 = f.add_subplot(111)
+    ax1.set_xlim(0, 48)
+    ax1.set_ylim(0, 48)
+    for zone in zones:
+        zone.plot_2D(fig=f)
+
+    plt.show()
+
+def plot_prsignal_with_zones(input_signals: list[str], zones: list[Zone]):
+    f = plot_prsignal(input_signals)
+    for zone in zones:
+        f = overlay(zone, f)
+
+    plt.show()
 
 
 if __name__ == '__main__':

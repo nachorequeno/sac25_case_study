@@ -4,23 +4,14 @@ import pandas as pd
 import seaborn as sns
 
 import matplotlib.pyplot as plt
-from ParetoLib.Geometry.Zone import Zone
 from matplotlib.figure import Figure
 
 from ParetoLib.TRE.TRE import TimedrelInterface
+from signals2prsignal import plot_zones, plot_prsignal_with_zones
+
 
 def create_temporary_trace_file(input_signals: list[str], trace_file: str) -> None:
     pass
-
-def plot_zones(zones: list[Zone]) -> None:
-    f: Figure = plt.figure()
-    ax1 = f.add_subplot(111)
-    ax1.set_xlim(0, 48)
-    ax1.set_ylim(0, 48)
-    for zone in zones:
-        zone.plot_2D(fig=f)
-
-    plt.show()
 
 def plot_prsignal(input_signals: list[str], fig: Figure = None) -> Figure:
     if fig is None:
@@ -49,47 +40,6 @@ def plot_prsignal(input_signals: list[str], fig: Figure = None) -> Figure:
     sns.lineplot(data=df_aggregated_signals, x="time", y="signal", ax=ax)
     plt.ylim(0, 2.75)
     return plt.gcf()
-
-
-def overlay(zone: Zone, fig: Figure = None) -> Figure:
-    if fig is None:
-        # fig = plt.figure()
-        fig, ax = plt.subplots()
-    else:
-        axes = fig.get_axes()
-        ax = axes[0]
-
-    b, bp = zone.bmin[0], zone.bmax[0]
-    e, ep = zone.emin[0], zone.emax[0]
-    d, dp = zone.dmin[0], zone.dmax[0]
-
-    xmin, xmax = ax.get_xlim()
-    ymin, ymax = ax.get_ylim()
-
-    # p1 = (b, e)
-    # p2 = (b, b + dp)
-    # p3 = (ep - dp, ep)
-    # p4 = (bp, ep)
-    # p5 = (bp, bp + d)
-    # p6 = (e - d, e)
-
-    # Begin
-    ax.vlines(x=b, ymin=ymin, ymax=ymax, color='g', linestyle='-')
-    ax.vlines(x=bp, ymin=ymin, ymax=ymax, color='g', linestyle='--')
-
-    # End
-    ax.vlines(x=e, ymin=ymin, ymax=ymax, color='r', linestyle='-')
-    ax.vlines(x=ep, ymin=ymin, ymax=ymax, color='r', linestyle='--')
-
-    # Grey zones between begin and end
-    ax.fill_betweenx(y=[ymin, ymax], x1=b, x2=e, facecolor='grey', alpha=0.25)
-    ax.fill_betweenx(y=[ymin, ymax], x1=b, x2=b + dp, facecolor='grey', alpha=0.25)
-    ax.fill_betweenx(y=[ymin, ymax], x1=bp, x2=ep, facecolor='grey', alpha=0.25)
-    ax.fill_betweenx(y=[ymin, ymax], x1=bp, x2=bp + d, facecolor='grey', alpha=0.25)
-    ax.fill_betweenx(y=[ymin, ymax], x1=ep - dp, x2=ep, facecolor='grey', alpha=0.25)
-    ax.fill_betweenx(y=[ymin, ymax], x1=e - d, x2=e, facecolor='grey', alpha=0.25)
-
-    return fig
 
 def read_expression(filename: str) -> str:
     f = open(filename, "r")
@@ -131,10 +81,7 @@ if __name__=="__main__":
                                                 'higher': higher},)
 
     zones = tre_engine.run()
-    plot_zones(zones)
     print(zones)
 
-    f = plot_prsignal(input_signals)
-    for zone in zones:
-        f = overlay(zone, f)
-    plt.show()
+    plot_zones(zones)
+    plot_prsignal_with_zones(input_signals, zones)
