@@ -45,7 +45,7 @@ As output, the Python script will show the temporal zones that return the execut
 ![img1](/svg/fdi50_zones.svg)
 
 Additionally, the Python script will overlay the information of the temporal zones on top of the electricity consumption record.
-Green lines represent the time instants when the TRE starts to become true, and the red lines corresponds to the red lines the time instants when the TRE ends. 
+Green lines represent the time instants when the TRE starts to become true, and the red lines corresponds to the time instants when the TRE ends. 
 
 ![img2](/svg/fdi50_signal_and_zones.svg)
 Green lines indicate the time instants when the pattern matching of the TRE may begin (b < t < b'); 
