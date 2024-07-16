@@ -19,10 +19,10 @@ As output, it will generate a CSV file (named output_prsignal.csv) and a SVG pic
 For instance, the next figure shows the average electricity consumption of user ID 1153 in a regular day.
 The upper/lower bands are the 95% interval of confidence which includes the 95% of the samples.
 
-![Alt Text](tfg/svg/normal.svg)
+![Alt Text](/svg/normal.svg)
 
 You can generate the pictures of SAC 25 paper running the `plot_pictures.sh` script. 
-The CSV file contains the time series information the picture was generated from.
+The CSV file contains the time serie information the picture was generated from.
 Particularly, it has three columns: 1) the timestamp, 2) the average electricity consumption, and 3) the standard deviation.
 As the smart meters register the information every half an hour, the CSV file should consist of 48 entries.
 
@@ -42,10 +42,10 @@ python experiments.py fdi50 ./day_0_50_user_1143/fdi50/days_*
 
 As output, the Python script will show the temporal zones that return the execution of the TRE expression agains the electricity consumption record.
 
-![Alt Text](tfg/svg/fdi50.svg)
+![Alt Text](/svg/fdi50.svg)
 
 Additionally, the Python script will overlay the the information of the temporal zones on top of the electricity consumption record.
 Green lines represent the time instants when the TRE starts to become true, and the red lines corresponds to the red lines the time instants when the TRE ends. 
 
-![Alt Text](tfg/svg/fdi50.svg)
+![Alt Text](/svg/fdi50.svg)
 ** Continuar con la explicación **

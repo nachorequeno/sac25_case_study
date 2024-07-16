@@ -87,7 +87,6 @@ def signals2prsignal_opt(output_signal: str, input_signals: list[str]) -> None:
     # Dump to output file
     df_output_signal.to_csv(output_signal, header=False)
 
-
 def signals2prsignal(output_signal: str, input_signals: list[str]) -> None:
     df_aggregated_signals = pd.DataFrame()
 
@@ -107,7 +106,6 @@ def signals2prsignal(output_signal: str, input_signals: list[str]) -> None:
 
     # Dump to output file
     df_output_signal.to_csv(output_signal, header=False)
-
 
 def plot_prsignal(output_signal: str, input_signals: list[str], fig: Figure = None) -> Figure:
     '''
@@ -145,7 +143,10 @@ def plot_prsignal(output_signal: str, input_signals: list[str], fig: Figure = No
 
     sns.lineplot(data=df_aggregated_signals, x="time", y="signal", ax=ax)
     plt.ylim(0, 2.75)
-    plt.savefig(fname=output_signal, format='svg')
+    plt.xlim(0, 48)
+    if output_signal is not None:
+        plt.savefig(fname=output_signal, format='svg')
+
     return plt.gcf()
 
 
@@ -159,8 +160,8 @@ def plot_zones(zones: list[Zone]) -> None:
 
     plt.show()
 
-def plot_prsignal_with_zones(input_signals: list[str], zones: list[Zone]):
-    f = plot_prsignal(input_signals)
+def plot_prsignal_with_zones(output_signal: str, input_signals: list[str], zones: list[Zone]):
+    f = plot_prsignal(output_signal, input_signals)
     for zone in zones:
         f = overlay(zone, f)
 
