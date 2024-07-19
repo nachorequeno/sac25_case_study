@@ -6,7 +6,21 @@ Particularly, TFG folder contains:
 - The bash-shell and Python scripts for running the evaluation of the TREs against the electricity consumption recordings.
 
 ## Installation of dependencies
+We recommend you to install [pyenv](https://github.com/pyenv/pyenv) for managing virtual environments in Python.
+Previously, you must install the [pyenv dependencies] (https://github.com/pyenv/pyenv/wiki#suggested-build-environment).
+
+Then, just run the following command for installing the Python libraries that are required for the experimental case study.
+``
 pip install -r requirements.txt --user
+``
+
+[ParetoLib](https://gricad-gitlab.univ-grenoble-alpes.fr/verimag/tempo/multidimensional_search), version 2.5.1, must be installed
+manually following the installation procedure in the Git website.
+Shortly speaking, you must download the *.whl file from the [release assets](https://gricad-gitlab.univ-grenoble-alpes.fr/verimag/tempo/multidimensional_search/-/jobs/artifacts/v2.5.1/download?job=build), and run:
+
+``
+pip install *.whl
+``
 
 ## Digesting several time series into a single probabilistic signal with 95% interval of confidence
 In order to summarize the electricity consumption recordings of several days, you can run the following command:
