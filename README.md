@@ -22,6 +22,8 @@ Shortly speaking, you must download the *.whl file from the [release assets](htt
 pip install *.whl
 ``
 
+Additionally, you must install [QueryTRE 0.1.0](https://github.com/nachorequeno/querytre/releases/tag/v0.1.0) following the same procedure.
+
 ## Digesting several time series into a single probabilistic signal with 95% interval of confidence
 In order to summarize the electricity consumption recordings of several days, you can run the following command:
 
