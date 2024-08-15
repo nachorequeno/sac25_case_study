@@ -48,5 +48,5 @@ if __name__=="__main__":
     zones = tre_engine.run()
     print(zones)
 
-    plot_zones(zones)
-    plot_prsignal_with_zones(None, input_signals, zones)
+    plot_zones(f"./svg/{attack}_zones.svg", zones)
+    plot_prsignal_with_zones(f"./svg/{attack}_signal_and_zones.svg", input_signals, zones)

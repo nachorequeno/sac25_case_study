@@ -150,7 +150,7 @@ def plot_prsignal(output_signal: str, input_signals: list[str], fig: Figure = No
     return plt.gcf()
 
 
-def plot_zones(zones: list[Zone]) -> None:
+def plot_zones(output_signal: str, zones: list[Zone]) -> None:
     f: Figure = plt.figure()
     ax1 = f.add_subplot(111)
     ax1.set_xlim(0, 48)
@@ -158,12 +158,18 @@ def plot_zones(zones: list[Zone]) -> None:
     for zone in zones:
         zone.plot_2D(fig=f)
 
+    if output_signal is not None:
+        plt.savefig(fname=output_signal, format='svg')
+
     plt.show()
 
 def plot_prsignal_with_zones(output_signal: str, input_signals: list[str], zones: list[Zone]):
     f = plot_prsignal(output_signal, input_signals)
     for zone in zones:
         f = overlay(zone, f)
+
+    if output_signal is not None:
+        plt.savefig(fname=output_signal, format='svg')
 
     plt.show()
 
