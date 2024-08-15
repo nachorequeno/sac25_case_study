@@ -35,7 +35,7 @@ As output, it will generate a CSV file (named output_prsignal.csv) and a SVG pic
 For instance, the next figure shows the average electricity consumption of user ID 1153 in a regular day.
 The upper/lower bands are the 95% interval of confidence which includes the 95% of the samples.
 
-![Alt Text](/svg/normal.svg)
+![Alt Text](/svg/results_0_360/normal.svg)
 
 You can generate the pictures of SAC 25 paper running the `plot_pictures.sh` script. 
 The CSV file contains the time serie information the picture was generated from.

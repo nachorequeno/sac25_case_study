@@ -1,7 +1,8 @@
 import sys
 
 from ParetoLib.TRE.TRE import TimedrelInterface
-from signals2prsignal import plot_zones, plot_prsignal_with_zones
+from signals2prsignal import plot_zones, plot_prsignal_with_zones, signals2prsignal
+
 
 def read_expression(filename: str) -> str:
     f = open(filename, "r")
@@ -29,6 +30,8 @@ def higher(x):
 if __name__=="__main__":
     attack = sys.argv[1]
     input_signals = sys.argv[2:]
+
+    # signals2prsignal(f"./csv/{attack}.csv", input_signals)
 
     prec = 1
 
