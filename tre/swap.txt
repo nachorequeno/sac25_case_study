@@ -1,1 +1,1 @@
-(high [1:5]; medium [1:10]; low [1:5])
+(high [1:10]; medium [1:15]; low [10:20])
