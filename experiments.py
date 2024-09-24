@@ -31,7 +31,7 @@ if __name__=="__main__":
     attack = sys.argv[1]
     input_signals = sys.argv[2:]
 
-    # signals2prsignal(f"./csv/{attack}.csv", input_signals)
+    signals2prsignal(f"./csv/{attack}.csv", input_signals)
 
     prec = 1
 

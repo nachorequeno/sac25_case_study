@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 
 from ParetoLib.Geometry.Zone import Zone
+from numpy import mean
+
 
 def overlay(zone: Zone, fig: Figure = None) -> Figure:
     '''
@@ -125,12 +127,16 @@ def plot_prsignal(output_signal: str, input_signals: list[str], fig: Figure = No
     df_aggregated_signals = pd.DataFrame()
 
     i = 0
+    max_mean_signal_value = 0.0
     for input_signal in input_signals:
         # Read CSV file
         df_input_signal = pd.read_csv(input_signal, names=["time", "signal"], index_col=0)
         df_input_signal["id"] = i
+        # Extracting the maximum signal values for adjusting the plotting axis
+        mean_signal_value = mean(df_input_signal["signal"])
+        max_mean_signal_value = max(max_mean_signal_value, mean_signal_value)
+        # Reseting index for multiple signal concatenation
         df_input_signal = df_input_signal.reset_index()
-
         df_aggregated_signals = pd.concat([df_aggregated_signals, df_input_signal])
         i = i + 1
 
@@ -142,7 +148,8 @@ def plot_prsignal(output_signal: str, input_signals: list[str], fig: Figure = No
     print(signals_wide.head())
 
     sns.lineplot(data=df_aggregated_signals, x="time", y="signal", ax=ax)
-    plt.ylim(0, 2.75)
+    max_y = 2.75 if max_mean_signal_value < 2.75 else 7.0
+    plt.ylim(0, max_y)
     plt.xlim(0, 48)
     if output_signal is not None:
         plt.savefig(fname=output_signal, format='svg')
