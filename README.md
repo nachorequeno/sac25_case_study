@@ -64,6 +64,7 @@ Additionally, the Python script will overlay the information of the temporal zon
 Green lines represent the time instants when the TRE starts to become true, and the red lines corresponds to the time instants when the TRE ends. 
 
 ![img2](/svg/fdi50_signal_and_zones.svg)
+
 Green lines indicate the time instants when the pattern matching of the TRE may begin (b < t < b'); 
 the red lines are the time instants when the pattern recognition may end (e < t < e'), and blue lines represent the duration (b + d < e, b' + d' < e').
 
