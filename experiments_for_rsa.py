@@ -24,7 +24,7 @@ def high(x):
     return 1.42 <= x[2] < 2.42
 
 def higher(x):
-    return x[2] < 2.42
+    return x[2] >= 2.42
 
 
 if __name__=="__main__":
