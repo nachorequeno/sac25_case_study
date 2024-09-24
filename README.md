@@ -1,8 +1,8 @@
-# SAC25 Case Study
-This repository contains the datasets and scripts for reproducing the experiments that are published in the SAC25 paper.
-Particularly, TFG folder contains:
-- The daily electricity consumption records of user ID 1153 (day\_\<first_day\>\_\<last_day\>\_user\_\<id\>.zip)
-- The timed regular expressions (TXT files)
+# Case Study: Anomaly Detection in Smart Grids with TREs
+This repository contains the datasets and scripts for reproducing the experiments that are published in the conference paper.
+Particularly, this folder contains:
+- The daily electricity consumption records of user ID 1153 (day\_\<first_day\>\_\<last_day\>\_user\_\<id\>.zip).
+- The timed regular expressions in TXT files (TRE subfolder).
 - The bash-shell and Python scripts for running the evaluation of the TREs against the electricity consumption recordings.
 
 ## Installation of dependencies
@@ -37,7 +37,7 @@ The upper/lower bands are the 95% interval of confidence which includes the 95% 
 
 ![Alt Text](/svg/results_0_360/normal.svg)
 
-You can generate the pictures of SAC 25 paper running the `plot_pictures.sh` script. 
+You can generate the pictures of conference paper running the `plot_pictures.sh` script. 
 The CSV file contains the time serie information the picture was generated from.
 Particularly, it has three columns: 1) the timestamp, 2) the average electricity consumption, and 3) the standard deviation.
 As the smart meters register the information every half an hour, the CSV file should consist of 48 entries.
@@ -47,13 +47,13 @@ In order to run the experiments, you must firstly install [ParetoLib](https://gr
 Then, you can run the analysis for one of the anomaly scenarios in [fdi50, fdi150, avg, max\_avg, min\_avg, normal, rsa01\_08, rsa2\_5, swap].
 
 ``
-python experiments.py <attack> ./day_0_50_user_1143/<attack>/days_*
+python experiments.py <attack> ./day_0_360_user_1143/<attack>/days_*
 ``
 
 For instance, the following command will run the FDI scenario where the data is scaled by 50%.
 
 ``
-python experiments.py fdi50 ./day_0_50_user_1143/fdi50/days_*
+python experiments.py fdi50 ./day_0_360_user_1143/fdi50/days_*
 ``
 
 As output, the Python script will show the temporal zones that return the execution of the TRE expression agains the electricity consumption record.
@@ -76,4 +76,4 @@ The intensity of the grey color indicates overlapping time windows.
 [Figure 1](#img1) can be understood as [Figure 2](#img2) seen from bird's-eye perspective. 
 
 **Remark:**
-RSA scenarios require `lower` and `higher` propositions in TRE. Therefore, you should run `experiments_for_rsa.py` instead of `experiments.py`  
+RSA scenarios require `lower` and `higher` propositions in TRE. Therefore, you should run `experiments_for_rsa.py` instead of `experiments.py`.  
