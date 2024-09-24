@@ -10,6 +10,7 @@ We recommend you to install [pyenv](https://github.com/pyenv/pyenv) for managing
 Previously, you must install the [pyenv dependencies] (https://github.com/pyenv/pyenv/wiki#suggested-build-environment).
 
 Then, just run the following command for installing the Python libraries that are required for the experimental case study.
+
 ``
 pip install -r requirements.txt --user
 ``
